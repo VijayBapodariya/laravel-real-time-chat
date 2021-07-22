@@ -56,6 +56,9 @@
                     <div class="chat-input bg-light" id="chatInput" contenteditable=""></div>
                 </div>
             </div>
+            <div class="user">
+
+            </div>
         </div>
     </div>
 
@@ -67,7 +70,24 @@
 
     <script>
         $(function(){
-            let socket = io('http://localhost:3000');
+             let socket = io('http://13.232.83.2:7000');
+            // let ws = new WebSocket('wss://13.232.83.2:7000');
+            //  let socket = io('http://localhost:3000');
+
+            const user = {adminId:"603388bb7d20e50a81217277"};
+            
+            socket.emit('joinAdmin', user);
+
+            socket.on('res',(e)=>{
+                console.log(e.data);
+                $('.user').html(e);
+            })
+
+            // socket.on('connection', function() {
+            //     console.log(socket.id);
+            // });
+
+            //old chat
             let chatInput = $('#chatInput');
             chatInput.keypress(function(e){
                 let msg = $(this).html();
@@ -80,8 +100,9 @@
             });
 
             socket.on('sendChatToClient',(msg)=>{
-                $('.chat-content ul').append(`<li>${msg}</li>`  );
+                $('.chat-content ul').append(`<li>${msg}</li>`);
             })
+            //old chat end
         });
     </script>
 </body>

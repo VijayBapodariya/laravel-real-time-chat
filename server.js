@@ -1,4 +1,5 @@
 const express = require("express");
+const { getPriority } = require("os");
 
 const app = express();
 
@@ -14,6 +15,10 @@ io.on("connection", (socket) => {
 
         // io.sockets.emit("sendChatToClient", message);
         socket.broadcast.emit("sendChatToClient", message);
+    });
+
+    socket.on("joinAdmin", (msg) => {
+        console.log(msg);
     });
 
     socket.on("disconnect", (soket) => {
